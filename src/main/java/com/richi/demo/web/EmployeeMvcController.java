@@ -57,4 +57,14 @@ public class EmployeeMvcController
 		service.createOrUpdateEmployee(employee);
 		return "redirect:/";
 	}
+	
+	@RequestMapping(path = "/sort")
+	public String sortEmployeeByWorkout(Model model)
+	{
+		service.sortEmployeeByWorkout();
+		return "redirect:/";
+	}
+
+	
+	
 }

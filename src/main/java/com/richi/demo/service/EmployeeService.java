@@ -1,9 +1,9 @@
 package com.richi.demo.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import java.util.*; 
+import java.lang.*; 
+import java.io.*; 
+  
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +17,18 @@ public class EmployeeService {
 	@Autowired
 	EmployeeRepository repository;
 	
+	
+	List<EmployeeEntity> result;
+	
+	 int check=0;
+	
 	public List<EmployeeEntity> getAllEmployees()
 	{
-		List<EmployeeEntity> result = (List<EmployeeEntity>) repository.findAll();
+		
+		if(check==0)
+		result = (List<EmployeeEntity>) repository.findAll();
+		
+		else check=0;
 		
 		if(result.size() > 0) {
 			return result;
@@ -81,4 +90,25 @@ public class EmployeeService {
 			throw new RecordNotFoundException("No user record exist for given id");
 		}
 	} 
+	
+	public void sortEmployeeByWorkout() 
+	{
+		result = (List<EmployeeEntity>) repository.findAll();
+		check=1;
+		Collections.sort(result, new SortbyWorkout());	
+	} 
+	
+	
+}
+
+class SortbyWorkout implements Comparator<EmployeeEntity> {
+
+
+	
+	@Override
+	public int compare(EmployeeEntity a, EmployeeEntity b) {
+		return -1*(Integer.parseInt(a.getWorkout()) - Integer.parseInt(b.getWorkout()));
+	}
+
+	
 }
